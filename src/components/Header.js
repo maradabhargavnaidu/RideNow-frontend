@@ -8,11 +8,11 @@ const Header = () => {
           <img
             src={Background}
             alt="hero-img"
-            className="rounded md:min-h-screen  max-h-screen md:min-w-fit"
+            className="rounded min-h-screen"
             height={300}
           />
         </div>
-        <div className="absolute top-[20%] flex flex-col w-auto px-5">
+        <div className="fixed top-[20%] flex flex-col w-auto px-5">
           <p className="font-extrabold text-6xl  md:text-8xl text-orange-300">
             Embark Now
           </p>
