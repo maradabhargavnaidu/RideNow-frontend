@@ -13,10 +13,10 @@ const Header = () => {
           />
         </div>
         <div className="fixed top-[20%] flex flex-col w-auto px-5">
-          <p className="font-extrabold text-6xl  md:text-8xl text-orange-300">
+          <p className="font-extrabold text-6xl  md:text-8xl text-white font-RubikScr">
             Embark Now
           </p>
-          <p className="font-semibold text-4xl text-orange-300 md:text-5xl">
+          <p className="font-semibold text-4xl text-white md:text-5xl font-RubikScr">
             Rent Your Ride Today!
           </p>
           <div className="flex flex-col gap-5 my-5">
@@ -30,7 +30,7 @@ const Header = () => {
               placeholder="Enter PickUp and Drop Time"
               className="h-16 p-2 text-gray-900 accent-transparent"
             />
-            <button className="bg-transparent sm:text-lg text-xl text-orange-500 hover:text-white py-5 font-semibold border-2 border-orange-500 hover:bg-orange-500 hover:border-transparent duration-700 transition-all">
+            <button className="bg-transparent sm:text-lg text-xl text-white hover:text-white py-5 font-semibold border-2 border-white hover:bg-black  duration-700 transition-all">
               Find Your Ride
             </button>
           </div>
