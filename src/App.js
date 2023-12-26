@@ -1,13 +1,19 @@
-import Navbar from "./components/Navbar";
-import Header from "./components/Header";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import "./index.css";
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <Header />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Home />} path="/" />
+        <Route element={<Login />} path="/login" />
+        <Route element={<Signup />} path="/signup" />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
