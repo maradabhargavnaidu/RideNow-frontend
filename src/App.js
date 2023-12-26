@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
-import Verifyacc from "./pages/Verifyacc";
+
 import "./index.css";
 
 function App() {
@@ -18,7 +18,6 @@ function App() {
         <Route element={<Signup />} path="/signup" />
         <Route element={<UserLogin />} path="/user-login" />
         <Route element={<UserSignup />} path="/user-signup" />
-        <Route element={<Verifyacc />} path="/verify-account" />
       </Routes>
       <Toaster />
     </BrowserRouter>

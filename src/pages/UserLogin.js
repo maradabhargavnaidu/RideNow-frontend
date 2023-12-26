@@ -11,7 +11,7 @@ const UserLogin = () => {
       >
         <img src={logo} alt="logo" />
       </Link>
-      <div className="flex justify-center items-center min-h-screen container mx-auto">
+      <div className="flex justify-center items-center min-h-screen container mx-auto px-4">
         <div className="flex flex-col gap-5 shadow-black shadow-md p-5 w-full max-w-lg">
           <div className="flex">
             <Link
