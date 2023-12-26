@@ -1,5 +1,6 @@
 import React from "react";
 import Background from "../assets/medium.jpg";
+import toast, { Toaster } from "react-hot-toast";
 const Header = () => {
   return (
     <header className="bg-black text-white ">
@@ -30,7 +31,10 @@ const Header = () => {
               placeholder="Enter PickUp and Drop Time"
               className="h-16 p-2 text-gray-900 accent-transparent"
             />
-            <button className="bg-transparent sm:text-lg text-xl text-white hover:text-white py-5 font-semibold border-2 border-white hover:bg-black  duration-700 transition-all">
+            <button
+              onClick={() => toast("Here is your toast")}
+              className="bg-transparent sm:text-lg text-xl text-white hover:text-white py-5 font-semibold border-2 border-white hover:bg-black  duration-700 transition-all"
+            >
               Find Your Ride
             </button>
           </div>

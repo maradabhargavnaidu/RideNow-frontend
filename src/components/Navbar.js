@@ -25,7 +25,10 @@ const Navbar = () => {
         </div>
         {/* Desktop Navbar */}
         <div className="gap-5 items-center hidden md:flex">
-          <Link to="/login" className="font-semibold text-sm cursor-pointer">
+          <Link
+            to="/pick-account"
+            className="font-semibold text-sm cursor-pointer"
+          >
             Login
           </Link>
           <Link
@@ -47,7 +50,7 @@ const Navbar = () => {
           onClick={() => setNav(!nav)}
         >
           <Link
-            to="/login"
+            to="/pick-account"
             className="font-semibold text-sm cursor-pointer p-3"
           >
             Login
