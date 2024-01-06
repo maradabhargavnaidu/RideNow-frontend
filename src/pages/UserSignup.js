@@ -126,23 +126,23 @@ const UserSignup = () => {
   return (
     <>
       {show ? (
-        <>
+        <div className="bg-white">
           <div id="recaptcha-container"></div>
           <Link
             to="/"
-            className="bg-black flex justify-center items-center fixed w-full py-3"
+            className="bg-violet-700 shadow-md shadow-white flex justify-center items-center fixed w-full py-3"
           >
             <img src={logo} alt="logo" />
           </Link>
-          <div className="flex justify-center items-center min-h-screen container mx-auto px-4">
-            <div className="flex flex-col gap-5 shadow-black shadow-md p-5 w-full max-w-lg">
+          <div className="flex justify-center items-center min-h-screen container mx-auto px-4 font-CRound">
+            <div className="flex flex-col gap-5 shadow-white shadow-md p-5 w-full max-w-lg bg-violet-700">
               <div className="flex">
                 <Link
                   to="/user-login"
                   className={
-                    "flex-1 flex justify-center items-center py-2 font-semibold " +
+                    "flex-1 flex justify-center items-center py-2 font-semibold  text-white " +
                     (window.location.pathname === "/user-login"
-                      ? "border-black border-b-2"
+                      ? "border-white text-white font-bold border-b-2"
                       : "")
                   }
                 >
@@ -151,9 +151,9 @@ const UserSignup = () => {
                 <Link
                   to="/user-signup"
                   className={
-                    "flex-1 flex justify-center items-center py-2 font-semibold " +
+                    "flex-1 flex justify-center items-center py-2 font-semibold text-white " +
                     (window.location.pathname === "/user-signup"
-                      ? "border-black border-b-2"
+                      ? "border-white text-white border-b-2"
                       : "")
                   }
                 >
@@ -185,30 +185,33 @@ const UserSignup = () => {
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100 border-2"
               />
               <button
-                className="bg-black text-white font-semibold p-3 rounded-sm"
+                className="bg-white text-violet-700 font-semibold p-5 rounded-sm"
                 onClick={signUp}
               >
                 Sign up
               </button>
             </div>
           </div>
-        </>
+        </div>
       ) : (
         <>
           <Link
             to="/"
-            className="bg-black flex justify-center items-center fixed w-full py-3"
+            className="bg-violet-700 flex justify-center items-center fixed w-full py-3"
           >
             <img src={logo} alt="logo" />
           </Link>
-          <div className="flex justify-center items-center min-h-screen container mx-auto">
-            <div className="flex flex-col gap-5 shadow-black shadow-md p-5 w-full max-w-lg">
+          <div className="flex justify-center items-center min-h-screen container mx-auto font-CRound">
+            <div className="flex flex-col gap-5 shadow-black shadow-md p-5 w-full max-w-lg bg-violet-700">
               <div className="flex items-center justify-center">
-                <p className="font-semibold text-lg">Account Verification</p>
+                <p className="font-semibold text-lg text-white">
+                  Account Verification
+                </p>
               </div>
               <input
-                type="number"
+                type="text"
                 placeholder="Phone number"
+                value={number}
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100"
               />
               <input
@@ -218,7 +221,7 @@ const UserSignup = () => {
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100"
               />
               <button
-                className="bg-black text-white font-semibold p-3 rounded-sm"
+                className="bg-white text-violet-700 font-semibold p-5 rounded-sm"
                 onClick={verifyCode}
               >
                 Submit

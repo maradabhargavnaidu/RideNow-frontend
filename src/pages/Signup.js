@@ -4,7 +4,7 @@ const Signup = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto flex justify-center min-h-screen items-center px-4">
+      <div className="container mx-auto flex justify-center min-h-screen items-center px-4 font-CRound">
         <div className="flex flex-col gap-5 max-w-4xl">
           <p className="md:text-6xl font-bold text-4xl">
             How do you plan to make use of our bike rental services?
