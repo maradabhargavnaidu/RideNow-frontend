@@ -17,24 +17,27 @@ const UserSignup = () => {
   const Navigate = useNavigate();
   //Captch Verification
   const captchaVerifier = () => {
+    console.log("captch verifier called");
     if (!window.RecaptchaVerifier) {
+      console.log("if called in captcha");
       window.recaptchaVerifier = new RecaptchaVerifier(
         auth,
         "recaptcha-container",
         {
           size: "invisible",
           callback: (res) => {
-            signUp();
+            signUp(true);
           },
           "expired-callback": () => {
-            signUp();
+            captchaVerifier();
           },
         }
       );
     }
   };
+
   //To Register the user
-  const signUp = async () => {
+  const signUp = async (isCaptchVerified) => {
     if (name === "") {
       return toast.error("Name is required", {
         position: "top-right",
@@ -75,7 +78,11 @@ const UserSignup = () => {
         },
       });
     }
-    captchaVerifier();
+    if (isCaptchVerified === true) {
+    } else {
+      captchaVerifier();
+    }
+
     const Verifier = window.recaptchaVerifier;
     const Phnumber = "+91" + number;
     signInWithPhoneNumber(auth, Phnumber, Verifier)
@@ -83,6 +90,7 @@ const UserSignup = () => {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
+        console.log(confirmationResult);
         toast.success("OTP sent successfully!", {
           position: "top-right",
           className:
@@ -99,29 +107,52 @@ const UserSignup = () => {
       });
   };
   //OTP Verification
-  const verifyCode = () => {
-    window.confirmationResult
-      .confirm(code)
-      .then(async (result) => {
-        // const user = result.user;
-        toast.success("PhoneNumber verified Successfully!");
-        const res = await axios
-          .post(`http://localhost:3500/signup`, {
-            username: name,
-            mail,
-            phonenumber: number,
-            password,
-          })
-          .then((res) => {
-            console.log(res);
-            Navigate("/");
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((error) => {
-        // User couldn't sign in (bad verification code?)
-        console.log(error);
-      });
+  const verifyCode = async () => {
+    try {
+      const isConfirmed = await window.confirmationResult.confirm(code);
+      if (!isConfirmed) {
+        console.log("Invalid otp");
+        return;
+      }
+      const res = await axios.post(
+        "https://ridenow-backend.onrender.com/signup",
+        {
+          username: name,
+          mail,
+          phonenumber: number,
+          password,
+        }
+      );
+      if (res.data) {
+        Navigate("/");
+      } else {
+        console.log("Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // window.confirmationResult
+    //   .confirm(code)
+    //   .then(async (result) => {
+    //     // const user = result.user;
+    //     toast.success("PhoneNumber verified Successfully!");
+    //     const res = await axios
+    //       .post(`http://localhost:3500/signup`, {
+    //         username: name,
+    //         mail,
+    //         phonenumber: number,
+    //         password,
+    //       })
+    //       .then((res) => {
+    //         console.log(res);
+    //         Navigate("/");
+    //       })
+    //       .catch((err) => console.log(err));
+    //   })
+    //   .catch((error) => {
+    //     // User couldn't sign in (bad verification code?)
+    //     console.log(error);
+    //   });
   };
   return (
     <>
