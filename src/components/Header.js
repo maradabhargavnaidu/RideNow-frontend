@@ -37,7 +37,7 @@ const Header = () => {
             >
               Find Your Ride
             </button> */}
-            <button class=" py-5 relative group font-medium bg-white text-violet-700 border-violet-700 border-2 font-Nunito">
+            <button class=" py-5 relative group font-extrabold bg-white text-violet-700 border-violet-700 border-2 font-Nunito">
               <span class="absolute top-0 right-0 flex w-0 h-full mb-0 transition-all duration-400 ease-out transform translate-x-0 bg-violet-700 group-hover:w-full opacity-100"></span>
               <span class="relative group-hover:text-white text-lg">
                 Find Your Ride
