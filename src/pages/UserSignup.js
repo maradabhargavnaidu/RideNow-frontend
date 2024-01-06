@@ -165,13 +165,13 @@ const UserSignup = () => {
           >
             <img src={logo} alt="logo" />
           </Link>
-          <div className="flex justify-center items-center min-h-screen container mx-auto px-4 font-CRound">
+          <div className="flex justify-center items-center min-h-screen container mx-auto px-4 font-Nunito">
             <div className="flex flex-col gap-5 shadow-white shadow-md p-5 w-full max-w-lg bg-violet-700">
               <div className="flex">
                 <Link
                   to="/user-login"
                   className={
-                    "flex-1 flex justify-center items-center py-2 font-semibold  text-white " +
+                    "flex-1 flex justify-center items-center py-2 font-bold  text-white text-lg " +
                     (window.location.pathname === "/user-login"
                       ? "border-white text-white font-bold border-b-2"
                       : "")
@@ -182,7 +182,7 @@ const UserSignup = () => {
                 <Link
                   to="/user-signup"
                   className={
-                    "flex-1 flex justify-center items-center py-2 font-semibold text-white " +
+                    "flex-1 flex justify-center items-center py-2 font-bold text-white text-lg " +
                     (window.location.pathname === "/user-signup"
                       ? "border-white text-white border-b-2"
                       : "")
@@ -216,7 +216,7 @@ const UserSignup = () => {
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100 border-2"
               />
               <button
-                className="bg-white text-violet-700 font-semibold p-5 rounded-sm"
+                className="bg-white text-violet-700 font-bold p-5 rounded-sm"
                 onClick={signUp}
               >
                 Sign up

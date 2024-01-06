@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         RubikScr: "Rubik Scribble",
         CRound: "Crete Round",
+        Nunito: "Nunito",
       },
     },
   },

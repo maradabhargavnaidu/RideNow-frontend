@@ -31,11 +31,17 @@ const Header = () => {
               placeholder="Enter PickUp and Drop Time"
               className="h-16 p-2 text-gray-900 accent-transparent border-2 border-violet-700"
             />
-            <button
+            {/* <button
               onClick={() => toast("Here is your toast")}
-              className="sm:text-lg text-xl font-CRound py-5 font-semibold border-2 bg-violet-700  duration-700 transition-all"
+              className="sm:text-lg text-xl font-Nunito py-5 font-bold border-2 bg-violet-700  duration-700 transition-all hover:bg-white hover:text-violet-700 hover:border-violet-700"
             >
               Find Your Ride
+            </button> */}
+            <button class=" py-5 relative group font-medium bg-white text-violet-700 border-violet-700 border-2">
+              <span class="absolute top-0 right-0 flex w-0 h-full mb-0 transition-all duration-400 ease-out transform translate-x-0 bg-violet-700 group-hover:w-full opacity-100"></span>
+              <span class="relative group-hover:text-white text-lg">
+                Find Your Ride
+              </span>
             </button>
           </div>
         </div>
