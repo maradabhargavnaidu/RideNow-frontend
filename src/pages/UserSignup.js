@@ -1,20 +1,30 @@
 import React, { useState } from "react";
 import logo from "../assets/Logo.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../services/firebase.config";
+import { auth } from "../config/firebase.config";
 import { RecaptchaVerifier } from "firebase/auth";
 import { signInWithPhoneNumber } from "firebase/auth";
-import toast from "react-hot-toast";
-import axios from "axios";
-
+import api from "../config/api";
+import { signUpSchema } from "../validations/signup.validation";
+import { useForm } from "react-hook-form";
+import { useToast } from "../context/ToastProvider";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { AuthContext } from "../context/AuthProvider";
+import { useContext } from "react";
 const UserSignup = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(signUpSchema),
+  });
   const [show, setShow] = useState(true);
-  const [number, setNumber] = useState("");
-  const [name, setName] = useState("");
-  const [mail, setMail] = useState("");
-  const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
+  const { state, dispatch } = useContext(AuthContext);
   const Navigate = useNavigate();
+  const { success, error } = useToast();
+
   //Captch Verification
   const captchaVerifier = () => {
     console.log("captch verifier called");
@@ -37,122 +47,90 @@ const UserSignup = () => {
   };
 
   //To Register the user
-  const signUp = async (isCaptchVerified) => {
-    if (name === "") {
-      return toast.error("Name is required", {
-        position: "top-right",
-        className: "font-semibold text-xl border-red-600 bg-black border-2 p-5",
-        style: {
-          minWidth: "250px",
-          minHeight: "70px",
-        },
-      });
-    }
-    if (mail === "") {
-      return toast.error("Mail Id is required", {
-        position: "top-right",
-        className: "font-semibold text-xl border-red-600 bg-black border-2 p-5",
-        style: {
-          minWidth: "250px",
-          minHeight: "70px",
-        },
-      });
-    }
-    if (number === "") {
-      return toast.error("PhoneNumber is required", {
-        position: "top-right",
-        className: "font-semibold text-xl border-red-600 bg-black border-2 p-5",
-        style: {
-          minWidth: "250px",
-          minHeight: "70px",
-        },
-      });
-    }
-    if (password === "") {
-      return toast.error("Password is required", {
-        position: "top-right",
-        className: "font-semibold text-xl border-red-600 bg-black border-2 p-5",
-        style: {
-          minWidth: "250px",
-          minHeight: "70px",
-        },
-      });
-    }
+  const signUp = async (data, isCaptchVerified) => {
     if (isCaptchVerified === true) {
     } else {
       captchaVerifier();
     }
 
     const Verifier = window.recaptchaVerifier;
-    const Phnumber = "+91" + number;
+    const Phnumber = "+91" + data.number;
     signInWithPhoneNumber(auth, Phnumber, Verifier)
       .then((confirmationResult) => {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
-        console.log(confirmationResult);
-        toast.success("OTP sent successfully!", {
-          position: "top-right",
-          className:
-            "font-semibold text-xl border-green-600 bg-black border-2 p-5",
-          style: {
-            minWidth: "250px",
-            minHeight: "70px",
-          },
-        });
+        // console.log(confirmationResult);
+        success("OTP sent successfully");
         setShow(false);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+  const sendData = async (data) => {
+    try {
+      const res = await api.post(`/signup`, {
+        username: data.name,
+        mail: data.mail,
+        phonenumber: data.number,
+        password: data.password,
+        // verificationId: window.confirmationResult.verificationId,
+      });
+      console.log(res);
+      if (res.status === 201) {
+        Navigate("/");
+        dispatch({ type: "LOGIN", payload: res.data });
+        return success("Account Created Successfully!");
+      }
+    } catch (err) {
+      console.log(err);
+      // if (err.response.status === 422) {
+      //   return error("Check the entered details Correctly");
+      // }
+      // if (err.response.status === 409) {
+      //   return error("User already exists");
+      // }
+    }
+  };
   //OTP Verification
-  const verifyCode = async () => {
+  const verifyCode = async (data) => {
     try {
       const isConfirmed = await window.confirmationResult.confirm(code);
       if (!isConfirmed) {
-        console.log("Invalid otp");
-        return;
+        return error("Invalid OTP");
+      } else {
+        success("OTP Verified Successfully !");
       }
-      const res = await axios.post(
-        "https://ridenow-backend.onrender.com/signup",
-        {
-          username: name,
-          mail,
-          phonenumber: number,
-          password,
-        }
-      );
+      console.log(window.confirmationResult.verificationId);
+      const res = await api.post(`/signup`, {
+        username: data.name,
+        mail: data.mail,
+        phonenumber: data.number,
+        password: data.password,
+        verificationId: window.confirmationResult.verificationId,
+      });
+      if (res.status === 201) {
+        Navigate("/");
+        return success("Account Created Successfully!");
+      }
+
       if (res.data) {
         Navigate("/");
       } else {
-        console.log("Something went wrong");
+        error("Something went wrong");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      // if (err.response.status === 422) {
+      //   return error("Check the entered details Correctly");
+      // }
+      // if (err.response.status === 409) {
+      //   return error("User already exists");
+      // }
+      // return error(err);
+      console.log(err);
+      return error("Something went wrong");
     }
-    // window.confirmationResult
-    //   .confirm(code)
-    //   .then(async (result) => {
-    //     // const user = result.user;
-    //     toast.success("PhoneNumber verified Successfully!");
-    //     const res = await axios
-    //       .post(`http://localhost:3500/signup`, {
-    //         username: name,
-    //         mail,
-    //         phonenumber: number,
-    //         password,
-    //       })
-    //       .then((res) => {
-    //         console.log(res);
-    //         Navigate("/");
-    //       })
-    //       .catch((err) => console.log(err));
-    //   })
-    //   .catch((error) => {
-    //     // User couldn't sign in (bad verification code?)
-    //     console.log(error);
-    //   });
   };
   return (
     <>
@@ -166,7 +144,10 @@ const UserSignup = () => {
             <img src={logo} alt="logo" />
           </Link>
           <div className="flex justify-center items-center min-h-screen container mx-auto px-4 font-Nunito">
-            <div className="flex flex-col gap-5 shadow-white shadow-md p-5 w-full max-w-lg bg-violet-700">
+            <form
+              onSubmit={handleSubmit(signUp)}
+              className="flex flex-col gap-5 shadow-white shadow-md p-5 w-full max-w-lg bg-violet-700"
+            >
               <div className="flex">
                 <Link
                   to="/user-login"
@@ -194,34 +175,68 @@ const UserSignup = () => {
               <input
                 type="text"
                 placeholder="Name"
-                onChange={(e) => setName(e.target.value)}
+                {...register("name")}
+                // onChange={(e) => setName(e.target.value)}
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100 border-2"
               />
+              <span
+                className={
+                  "text-yellow-400 text-lg font-bold " +
+                  (errors.name ? "block" : "none hidden")
+                }
+              >
+                ⚠️ {errors.name?.message}
+              </span>
               <input
                 type="mail"
                 placeholder="Mail Id"
-                onChange={(e) => setMail(e.target.value)}
+                content={errors.mail?.message}
+                {...register("mail")}
+                // onChange={(e) => setMail(e.target.value)}
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100 border-2"
               />
+              <span
+                className={
+                  "text-yellow-400 text-lg font-bold " +
+                  (errors.mail ? "block" : "none hidden")
+                }
+              >
+                ⚠️ {errors.mail?.message}
+              </span>
               <input
                 type="number"
                 placeholder="Phone number"
-                onChange={(e) => setNumber(e.target.value)}
+                {...register("number")}
+                // onChange={(e) => setNumber(e.target.value)}
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100 border-2"
               />
+              <span
+                className={
+                  "text-yellow-400 text-lg font-bold " +
+                  (errors.number ? "block" : "none hidden")
+                }
+              >
+                ⚠️ {errors.number?.message}
+              </span>
               <input
                 type="password"
                 placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password")}
+                // onChange={(e) => setPassword(e.target.value)}
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100 border-2"
               />
-              <button
-                className="bg-white text-violet-700 font-bold p-5 rounded-sm"
-                onClick={signUp}
+              <span
+                className={
+                  "text-yellow-400 text-lg font-bold " +
+                  (errors.password ? "block" : "none hidden")
+                }
               >
+                ⚠️ {errors.password?.message}
+              </span>
+              <button className="bg-white text-violet-700 font-bold p-5 rounded-sm">
                 Sign up
               </button>
-            </div>
+            </form>
           </div>
         </div>
       ) : (
@@ -242,7 +257,7 @@ const UserSignup = () => {
               <input
                 type="text"
                 placeholder="Phone number"
-                value={number}
+                // value={number}
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100"
               />
               <input

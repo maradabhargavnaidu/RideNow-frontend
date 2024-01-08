@@ -1,6 +1,6 @@
 import React from "react";
-import Background from "../assets/medium.jpg";
-import toast, { Toaster } from "react-hot-toast";
+
+// import toast, { Toaster } from "react-hot-toast";
 const Header = () => {
   return (
     <header className=" text-white">
@@ -21,28 +21,44 @@ const Header = () => {
             Rent Your Ride Today!
           </p>
           <div className="flex flex-col gap-5 my-5">
-            <input
-              type="text"
-              placeholder="Enter Drop Location"
-              className="h-16 p-2 text-gray-900 accent-transparent border-2 border-violet-700"
-            />
-            <input
-              type="text"
-              placeholder="Enter PickUp and Drop Time"
-              className="h-16 p-2 text-gray-900 accent-transparent border-2 border-violet-700"
-            />
-            {/* <button
-              onClick={() => toast("Here is your toast")}
-              className="sm:text-lg text-xl font-Nunito py-5 font-bold border-2 bg-violet-700  duration-700 transition-all hover:bg-white hover:text-violet-700 hover:border-violet-700"
-            >
+            <div className="flex w-full gap-2">
+              <input
+                type="date"
+                placeholder="Enter Drop Location"
+                className="h-16 p-2 text-violet-700 accent-transparent flex-1 bg-gray-300"
+              />
+              <input
+                type="time"
+                placeholder="Enter PickUp and Drop Time"
+                className="h-16 p-2 text-violet-700 accent-transparent  flex-1 bg-gray-300"
+                min="09:00"
+                max="18:00"
+              />
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="date"
+                placeholder="Enter Drop Location"
+                className="h-16 p-2 text-violet-700 accent-transparent  bg-gray-300  flex-1"
+              />
+              <input
+                type="time"
+                placeholder="Enter PickUp and Drop Time"
+                className="h-16 p-2 text-violet-700 accent-transparent flex-1 bg-gray-300"
+                min="09:00"
+                max="18:00"
+              />
+            </div>
+
+            <button className="sm:text-lg text-xl font-Nunito py-5 font-extrabold border-2 bg-violet-700  duration-700 transition-all hover:bg-white hover:text-violet-700 hover:border-violet-700">
               Find Your Ride
-            </button> */}
-            <button class=" py-5 relative group font-extrabold bg-white text-violet-700 border-violet-700 border-2 font-Nunito">
-              <span class="absolute top-0 right-0 flex w-0 h-full mb-0 transition-all duration-400 ease-out transform translate-x-0 bg-violet-700 group-hover:w-full opacity-100"></span>
-              <span class="relative group-hover:text-white text-lg">
+            </button>
+            {/* <button className=" py-5 relative group font-extrabold bg-white text-violet-700 border-violet-700 border-2 font-Nunito">
+              <span className="absolute top-0 right-0 flex w-0 h-full mb-0 transition-all duration-400 ease-out transform translate-x-0 bg-violet-700 group-hover:w-full opacity-100"></span>
+              <span className="relative group-hover:text-white text-lg">
                 Find Your Ride
               </span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
