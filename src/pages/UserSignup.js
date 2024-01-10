@@ -104,11 +104,13 @@ const UserSignup = () => {
       }
       console.log(window.confirmationResult.verificationId);
       const res = await api.post(`/signup`, {
+        headers: {
+          authorization: "Bearer" + window.confirmationResult.verificationId,
+        },
         username: data.name,
         mail: data.mail,
         phonenumber: data.number,
         password: data.password,
-        verificationId: window.confirmationResult.verificationId,
       });
       if (res.status === 201) {
         Navigate("/");
