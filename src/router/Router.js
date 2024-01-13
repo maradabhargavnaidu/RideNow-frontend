@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 // import Signup from "../pages/Signup";
 // import UserLogin from "../pages/UserLogin";
 // import UserSignup from "../pages/UserSignup";
+import { CircleLoader } from "react-spinners";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "../context/AuthProvider";
@@ -17,7 +18,13 @@ const Router = () => {
     <BrowserRouter>
       <ToastProvider>
         <AuthProvider>
-          <Suspense fallback={<h1 className="text-center">Loading...</h1>}>
+          <Suspense
+            fallback={
+              <div className="min-h-screen flex items-center justify-center">
+                <CircleLoader color="#6d28d9" />.
+              </div>
+            }
+          >
             <Routes>
               <Route element={<Home />} path="/" />
               <Route element={<Login />} path="/pick-account" />
