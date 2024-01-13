@@ -141,7 +141,7 @@ const UserSignup = () => {
           <div id="recaptcha-container"></div>
           <Link
             to="/"
-            className="bg-violet-700 shadow-md shadow-white flex justify-center items-center fixed w-full py-3"
+            className="bg-violet-700 shadow-md shadow-white flex justify-center w-full py-3"
           >
             <img src={logo} alt="logo" />
           </Link>

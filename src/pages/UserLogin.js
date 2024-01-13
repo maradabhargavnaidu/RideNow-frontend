@@ -83,12 +83,28 @@ const UserLogin = () => {
             {...register("number")}
             className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100"
           />
+          <span
+            className={
+              "text-yellow-400 text-lg font-bold " +
+              (errors.number ? "block" : "none hidden")
+            }
+          >
+            ⚠️ {errors.number?.message}
+          </span>
           <input
             type="password"
             placeholder="Password"
             {...register("password")}
             className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100"
           />
+          <span
+            className={
+              "text-yellow-400 text-lg font-bold " +
+              (errors.password ? "block" : "none hidden")
+            }
+          >
+            ⚠️ {errors.password?.message}
+          </span>
           <button className="bg-white text-violet-700 font-bold p-5 rounded-sm">
             Login
           </button>
