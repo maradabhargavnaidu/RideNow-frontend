@@ -68,31 +68,32 @@ const UserSignup = () => {
         console.log(error);
       });
   };
-  const sendData = async (data) => {
-    try {
-      const res = await api.post(`/signup`, {
-        username: data.name,
-        mail: data.mail,
-        phonenumber: data.number,
-        password: data.password,
-        // verificationId: window.confirmationResult.verificationId,
-      });
-      console.log(res);
-      if (res.status === 201) {
-        Navigate("/");
-        dispatch({ type: "LOGIN", payload: res.data });
-        return success("Account Created Successfully!");
-      }
-    } catch (err) {
-      console.log(err);
-      // if (err.response.status === 422) {
-      //   return error("Check the entered details Correctly");
-      // }
-      // if (err.response.status === 409) {
-      //   return error("User already exists");
-      // }
-    }
-  };
+  // const sendData = async (data) => {
+  // console.log(data);
+  // try {
+  //   const res = await api.post(`/signup`, {
+  //     username: data.name,
+  //     mail: data.mail,
+  //     phonenumber: data.number,
+  //     password: data.password,
+  //     // verificationId: window.confirmationResult.verificationId,
+  //   });
+  //   console.log(res);
+  //   if (res.status === 201) {
+  //     Navigate("/");
+  //     dispatch({ type: "LOGIN", payload: res.data });
+  //     return success("Account Created Successfully!");
+  //   }
+  // } catch (err) {
+  //   console.log(err);
+  //   // if (err.response.status === 422) {
+  //   //   return error("Check the entered details Correctly");
+  //   // }
+  //   // if (err.response.status === 409) {
+  //   //   return error("User already exists");
+  //   // }
+  // }
+  // };
   //OTP Verification
   const verifyCode = async (data) => {
     try {
@@ -103,14 +104,15 @@ const UserSignup = () => {
         success("OTP Verified Successfully !");
       }
       console.log(window.confirmationResult.verificationId);
+      console.log(data);
+      const AUTH_TOKEN = window.confirmationResult.verificationId;
+      // api.defaults.headers.common["Authorization"] = AUTH_TOKEN;
       const res = await api.post(`/signup`, {
-        headers: {
-          authorization: "Bearer" + window.confirmationResult.verificationId,
-        },
         username: data.name,
         mail: data.mail,
         phonenumber: data.number,
         password: data.password,
+        authorization: `Bearer ${AUTH_TOKEN}`,
       });
       if (res.status === 201) {
         Navigate("/");
@@ -119,6 +121,7 @@ const UserSignup = () => {
 
       if (res.data) {
         Navigate("/");
+        dispatch({ type: "LOGIN", payload: res.data });
       } else {
         error("Something went wrong");
       }
@@ -249,7 +252,10 @@ const UserSignup = () => {
           >
             <img src={logo} alt="logo" />
           </Link>
-          <div className="flex justify-center items-center min-h-screen container mx-auto font-CRound">
+          <form
+            className="flex justify-center items-center min-h-screen container mx-auto font-CRound"
+            onSubmit={handleSubmit(verifyCode)}
+          >
             <div className="flex flex-col gap-5 shadow-black shadow-md p-5 w-full max-w-lg bg-violet-700">
               <div className="flex items-center justify-center">
                 <p className="font-semibold text-lg text-white">
@@ -268,14 +274,11 @@ const UserSignup = () => {
                 onChange={(e) => setCode(e.target.value)}
                 className="h-16 p-2 text-gray-900 accent-transparent bg-gray-100"
               />
-              <button
-                className="bg-white text-violet-700 font-semibold p-5 rounded-sm"
-                onClick={verifyCode}
-              >
+              <button className="bg-white text-violet-700 font-semibold p-5 rounded-sm">
                 Submit
               </button>
             </div>
-          </div>
+          </form>
         </>
       )}
     </>
